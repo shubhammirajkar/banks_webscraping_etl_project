@@ -8,49 +8,15 @@ The project is divided into the following components:
 
 1. **Extract (`extract` function):** The `extract` function uses BeautifulSoup to scrape data from a specified Wikipedia page and creates a DataFrame with relevant information such as bank names and market capitalization in USD billions.
 
-   ```python
-   def extract(url, table_attribs):
-    page = requests.get(url).text
-    data = BeautifulSoup(page,'html.parser')
-    df = pd.DataFrame(columns=table_attribs)
-    tables = data.find_all('tbody')
-    rows = tables[0].find_all('tr')
+2. **Transform (`transform` function):** The `transform` function accesses a CSV file containing exchange rate information and adds three columns to the DataFrame. These columns represent the transformed market capitalization values in GBP, EUR, and INR (scaled by the corresponding exchange rate factors).
 
-    for row in rows:
-        if row.find('td') is not None:
-            col = row.find_all('td')
-            bank_name = col[1].find_all('a')[1]['title']
-            market_cap = col[2].contents[0][:-1]
-            data_dict = {"Name":bank_name,
-                         "MC_USD_Billion": float(market_cap)}
-            df1 = pd.DataFrame(data_dict, index=[0])
-            df = pd.concat([df,df1], ignore_index=True)
-    return df
+3. **Load to CSV (`load_to_csv` function):** The `load_to_csv` function saves the final DataFrame as a CSV file in the specified output path.
 
-   ```
+4. **Load to Database (`load_to_db` function):** The `load_to_db` function saves the final DataFrame to a SQLite database table with the provided name.
 
-3. **Transform (`transform` function):** The `transform` function accesses a CSV file containing exchange rate information and adds three columns to the DataFrame. These columns represent the transformed market capitalization values in GBP, EUR, and INR (scaled by the corresponding exchange rate factors).
+5. **Run Query (`run_query` function):** The `run_query` function executes SQL queries on the database table and prints the results to the terminal.
 
-   ```python
-   def transform(df, csv_path):
-    dataframe = pd.read_csv(csv_path)
-    exchange_rate = dataframe.set_index('Currency')['Rate'].to_dict()
-    # Add MC_GBP_Billion column
-    df['MC_GBP_Billion'] = [np.round(x * exchange_rate['GBP'], 2) for x in df['MC_USD_Billion']]
-    #Add MC_EUR_Billion column
-    df['MC_EUR_Billion'] = [np.round(x * exchange_rate['EUR'], 2) for x in df['MC_USD_Billion']]
-    # Add MC_INR_Billion column
-    df['MC_INR_Billion'] = [np.round(x * exchange_rate['INR'], 2) for x in df['MC_USD_Billion']]
-    return df
-   ```
-
-5. **Load to CSV (`load_to_csv` function):** The `load_to_csv` function saves the final DataFrame as a CSV file in the specified output path.
-
-6. **Load to Database (`load_to_db` function):** The `load_to_db` function saves the final DataFrame to a SQLite database table with the provided name.
-
-7. **Run Query (`run_query` function):** The `run_query` function executes SQL queries on the database table and prints the results to the terminal.
-
-8. **Logging (`log_progress` function):** The `log_progress` function logs messages at different stages of the ETL process to a log file (`code_log.txt`).
+6. **Logging (`log_progress` function):** The `log_progress` function logs messages at different stages of the ETL process to a log file (`code_log.txt`).
 
 ## Usage
 

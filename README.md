@@ -8,15 +8,36 @@ The project is divided into the following components:
 
 1. **Extract (`extract` function):** The `extract` function uses BeautifulSoup to scrape data from a specified Wikipedia page and creates a DataFrame with relevant information such as bank names and market capitalization in USD billions.
 
-2. **Transform (`transform` function):** The `transform` function accesses a CSV file containing exchange rate information and adds three columns to the DataFrame. These columns represent the transformed market capitalization values in GBP, EUR, and INR (scaled by the corresponding exchange rate factors).
+   ```python
+   def extract(url, table_attribs):
+    page = requests.get(url).text
+    data = BeautifulSoup(page,'html.parser')
+    df = pd.DataFrame(columns=table_attribs)
+    tables = data.find_all('tbody')
+    rows = tables[0].find_all('tr')
 
-3. **Load to CSV (`load_to_csv` function):** The `load_to_csv` function saves the final DataFrame as a CSV file in the specified output path.
+    for row in rows:
+        if row.find('td') is not None:
+            col = row.find_all('td')
+            bank_name = col[1].find_all('a')[1]['title']
+            market_cap = col[2].contents[0][:-1]
+            data_dict = {"Name":bank_name,
+                         "MC_USD_Billion": float(market_cap)}
+            df1 = pd.DataFrame(data_dict, index=[0])
+            df = pd.concat([df,df1], ignore_index=True)
+    return df
 
-4. **Load to Database (`load_to_db` function):** The `load_to_db` function saves the final DataFrame to a SQLite database table with the provided name.
+   ```
 
-5. **Run Query (`run_query` function):** The `run_query` function executes SQL queries on the database table and prints the results to the terminal.
+3. **Transform (`transform` function):** The `transform` function accesses a CSV file containing exchange rate information and adds three columns to the DataFrame. These columns represent the transformed market capitalization values in GBP, EUR, and INR (scaled by the corresponding exchange rate factors).
 
-6. **Logging (`log_progress` function):** The `log_progress` function logs messages at different stages of the ETL process to a log file (`code_log.txt`).
+4. **Load to CSV (`load_to_csv` function):** The `load_to_csv` function saves the final DataFrame as a CSV file in the specified output path.
+
+5. **Load to Database (`load_to_db` function):** The `load_to_db` function saves the final DataFrame to a SQLite database table with the provided name.
+
+6. **Run Query (`run_query` function):** The `run_query` function executes SQL queries on the database table and prints the results to the terminal.
+
+7. **Logging (`log_progress` function):** The `log_progress` function logs messages at different stages of the ETL process to a log file (`code_log.txt`).
 
 ## Usage
 

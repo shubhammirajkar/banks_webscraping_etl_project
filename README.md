@@ -20,20 +20,15 @@ The project is divided into the following components:
 
 ## Usage
 
-1. Clone the repository to your local machine:
+1. Install the required libraries:
 
     ```bash
-    git clone https://github.com/yourusername/webscraping-etl-project.git
-    cd webscraping-etl-project
+    python3.11 -m pip install pandas
+    python3.11 -m pip install numpy
+    python3.11 -m pip install bs4
     ```
 
-2. Install the required libraries:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3. Run the script:
+2. Run the script:
 
     ```bash
     python etl_script.py

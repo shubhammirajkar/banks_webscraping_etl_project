@@ -31,7 +31,7 @@ The project is divided into the following components:
 2. Run the script:
 
     ```bash
-    python etl_script.py
+    python3.11 etl_script.py
     ```
 
 ## Additional Information

@@ -7,7 +7,7 @@ This repository contains a Python script for extracting, transforming, and loadi
 The project is divided into the following components:
 
 1. **Extract (`extract` function):** The `extract` function uses BeautifulSoup to scrape data from a specified Wikipedia page and creates a DataFrame with relevant information such as bank names and market capitalization in USD billions.
-<img src="webpage.png">
+  ![Webpage](webpage.png)
 
 2. **Transform (`transform` function):** The `transform` function accesses a CSV file containing exchange rate information and adds three columns to the DataFrame. These columns represent the transformed market capitalization values in GBP, EUR, and INR (scaled by the corresponding exchange rate factors).
 

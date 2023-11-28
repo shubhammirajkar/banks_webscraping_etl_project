@@ -31,13 +31,26 @@ The project is divided into the following components:
 
 3. **Transform (`transform` function):** The `transform` function accesses a CSV file containing exchange rate information and adds three columns to the DataFrame. These columns represent the transformed market capitalization values in GBP, EUR, and INR (scaled by the corresponding exchange rate factors).
 
-4. **Load to CSV (`load_to_csv` function):** The `load_to_csv` function saves the final DataFrame as a CSV file in the specified output path.
+   ```python
+   def transform(df, csv_path):
+    dataframe = pd.read_csv(csv_path)
+    exchange_rate = dataframe.set_index('Currency')['Rate'].to_dict()
+    # Add MC_GBP_Billion column
+    df['MC_GBP_Billion'] = [np.round(x * exchange_rate['GBP'], 2) for x in df['MC_USD_Billion']]
+    #Add MC_EUR_Billion column
+    df['MC_EUR_Billion'] = [np.round(x * exchange_rate['EUR'], 2) for x in df['MC_USD_Billion']]
+    # Add MC_INR_Billion column
+    df['MC_INR_Billion'] = [np.round(x * exchange_rate['INR'], 2) for x in df['MC_USD_Billion']]
+    return df
+   ```
 
-5. **Load to Database (`load_to_db` function):** The `load_to_db` function saves the final DataFrame to a SQLite database table with the provided name.
+5. **Load to CSV (`load_to_csv` function):** The `load_to_csv` function saves the final DataFrame as a CSV file in the specified output path.
 
-6. **Run Query (`run_query` function):** The `run_query` function executes SQL queries on the database table and prints the results to the terminal.
+6. **Load to Database (`load_to_db` function):** The `load_to_db` function saves the final DataFrame to a SQLite database table with the provided name.
 
-7. **Logging (`log_progress` function):** The `log_progress` function logs messages at different stages of the ETL process to a log file (`code_log.txt`).
+7. **Run Query (`run_query` function):** The `run_query` function executes SQL queries on the database table and prints the results to the terminal.
+
+8. **Logging (`log_progress` function):** The `log_progress` function logs messages at different stages of the ETL process to a log file (`code_log.txt`).
 
 ## Usage
 

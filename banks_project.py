@@ -1,3 +1,6 @@
+# Code for ETL operations on World's Largest Banks
+
+# Importing the required libraries
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
@@ -5,9 +8,6 @@ import numpy as np
 import sqlite3
 from datetime import datetime 
 
-# Code for ETL operations on Country-GDP data
-
-# Importing the required libraries
 
 def log_progress(message):
     ''' This function logs the mentioned message of a given stage of the

@@ -44,4 +44,3 @@ The project is divided into the following components:
 
 - The script logs progress messages to `code_log.txt`. 
 
-Feel free to customize the script based on your specific requirements. If you encounter any issues or have suggestions for improvement, please open an issue in the GitHub repository.

@@ -14,7 +14,7 @@ The project is divided into the following components:
 
 4. **Load to Database (`load_to_db` function):** The `load_to_db` function saves the final DataFrame to a SQLite database table with the provided name.
 
-5. **Run Query (`run_query` function):** The `run_query` function executes SQL queries on the database table and prints the results to the terminal.
+5. **Run Query (`run_query` function):** The `run_query` function executes SQL queries on the database table and prints the results to the terminal. 
 
 6. **Logging (`log_progress` function):** The `log_progress` function logs messages at different stages of the ETL process to a log file (`code_log.txt`).
 
